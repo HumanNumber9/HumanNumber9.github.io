@@ -24,13 +24,16 @@
           if (web3.eth.accounts[0] !== userAccount) {
             userAccount = web3.eth.accounts[0];
             // Call a function to update the UI with the new account
-            totalSupply();
+            totalSupply().then;
             //getZombiesByOwner(userAccount)
             //.then(displayZombies);
           }
         }, 100);
       }
 
+      function displayGet(num) {
+        $("#zombies").append(num);
+      }
       function displayZombies(ids) {
         $("#zombies").empty();
         for (id of ids) {
