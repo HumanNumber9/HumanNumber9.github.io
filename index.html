@@ -32,6 +32,24 @@
                     } catch (error) {
                         // User denied account access...
                     }
+                    try {
+                        const transactionHash = await ethereum.request({
+                            method: 'getWord',
+                            params: [
+                                {
+                                    //to: '0x...',
+                                    //'from': '0x...',
+                                    //value: '0x...',
+                                    // And so on...
+                                },
+                            ],
+                        });
+                         // Handle the result
+                        console.log(transactionHash);
+                        document.getElementById("xbalance").innerHTML = "Total supply is : " + transactionHash;
+                    } catch (error) {
+                        console.error(error);
+                    }
                 }
                 // Legacy dapp browsers...
                 else if (window.web3) {
@@ -46,7 +64,7 @@
                 }
             });
 
-            getvalue();
+            //getvalue();
             
             function getvalue() {
                 try {
@@ -74,7 +92,7 @@
                     var netID = web3.eth.net.getId();
 
                     //call the get function of our SimpleStorage contract
-                    myfunction.totalSupply.call(function (err, xname) {
+                    myfunction.getWord.call(function (err, xname) {
                         if (err) { 
                             console.log(err);
                             console.log(netID);
