@@ -17,7 +17,7 @@
       var userAccount;
 
       function startApp() {
-        var cryptoZombiesAddress = "0x96ed81c7f4406eff359e27bff6325dc3c9e042bd";
+        var cryptoZombiesAddress = "0x3f8e61364e8CBF104942d2bCc65D939505dfa91D";
         cryptoZombies = new web3js.eth.Contract(contractABI, cryptoZombiesAddress);
 
         var accountInterval = setInterval(function() {
@@ -25,7 +25,7 @@
           if (web3.eth.accounts[0] !== userAccount) {
             userAccount = web3.eth.accounts[0];
             // Call a function to update the UI with the new account
-            displayGet(totalSupply());
+            getWord().then(displayGet);
             //getZombiesByOwner(userAccount)
             //.then(displayZombies);
           }
