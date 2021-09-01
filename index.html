@@ -1,45 +1,114 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-        <script language="javascript" type="text/javascript" src="src/contract_ABI.js"></script>
-        <script>
-            const contract_address = "0x3f8e61364e8CBF104942d2bCc65D939505dfa91D";
-            const ABI = [
-                {
-                    "inputs": [],
-                    "name": "getWord",
-                    "outputs": [
-                        {
-                            "internalType": "string",
-                            "name": "",
-                            "type": "string"
-                        }
-                    ],
-                    "stateMutability": "view",
-                    "type": "function"
-                }
-            ]
-            let contract;
-            window.addEventListener('load', () => {
-                if (typeof(web3) === 'undefined') {
-                    return console.log("Metamask is not installed.");
-                } else {
-                    return console.log("Metamask is installed.");
-                }
-                contract = web3.eth.contract(ABI).at(contract_address);
-
-                $('#message').text("ad");
-                contract.getWord.call((error, result) => {
-                    if(error) {
-                        return console.log(error);
-                    }
-                    $('#message').text(result);
-                });
-            });
-      </script>
+        <title></title>
+        <meta charset="utf-8" />
     </head>
     <body>
-        <div id="message"></div>
+        <script>
+            /*window.onload = function () {
+                if (typeof window.etherium !== 'undefined') {
+                    const accounts = await ethereum.request({ method: 'eth_accounts' });
+
+                    window.etherium = new Web3(web3.currentProvider);    
+                    document.getElementById('metamask').innerHTML = 'Installed!!!';
+                    console.log('MetaMask is installed!');
+                    alert('You have MetaMask installed!!!');
+
+                } else {
+                    document.getElementById('metamask').innerHTML = 'You need <a href="https://metamask.io/">MetaMask</a> browser plugin to run this example';
+                }
+            }*/
+            window.addEventListener('load', async () => {
+                // Modern dapp browsers...
+                if (window.ethereum) {
+                    window.web3 = new Web3(ethereum);
+                    document.getElementById('metamask').innerHTML = 'Installed 1!!!';
+                    try {
+                        // Request account access if needed
+                        await ethereum.enable();
+                        // Acccounts now exposed
+                        web3.eth.sendTransaction({/* ... */});
+                    } catch (error) {
+                        // User denied account access...
+                    }
+                }
+                // Legacy dapp browsers...
+                else if (window.web3) {
+                    window.web3 = new Web3(web3.currentProvider);
+                    document.getElementById('metamask').innerHTML = 'Installed 2!!!';
+                    // Acccounts always exposed
+                    web3.eth.sendTransaction({/* ... */});
+                }
+                // Non-dapp browsers...
+                else {
+                    console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
+                }
+            });
+
+            getvalue();
+            
+            function getvalue() {
+                try {
+                    // contract Abi defines all the variables,constants and functions of the smart contract. replace with your own abi
+                    var abi = [
+                        {
+                            "inputs": [],
+                            "name": "getWord",
+                            "outputs": [
+                                {
+                                    "internalType": "string",
+                                    "name": "",
+                                    "type": "string"
+                                }
+                            ],
+                            "stateMutability": "view",
+                            "type": "function"
+                        }
+                    ]
+                    //contract address. please change the address to your own
+                    var contractaddress = "0x25555f2D82571256B6FF551eAaaa8AEaCa2D29FA";
+                    //instantiate and connect to contract address via Abi
+                    var myAbi = new web3.eth.contract(abi);
+                    var myfunction = myAbi.at(contractaddress);
+                    var netID = web3.eth.net.getId();
+
+                    //call the get function of our SimpleStorage contract
+                    myfunction.totalSupply.call(function (err, xname) {
+                        if (err) { 
+                            console.log(err);
+                            console.log(netID);
+                        }
+                        if (xname) {
+                            //display value on the webpage
+                            document.getElementById("xbalance").innerHTML = "Total supply is : " + xname;
+                        }
+                        });
+                    }
+                catch (err) {
+                    document.getElementById("xbalance").innerHTML = err;
+                }
+            }
+        </script>
+    <center>
+        <div id=”metamask”></div>
+        <h3>Insert and retrieve value on the blockchain</h3>
+        <br />
+        <table>
+            <tr>
+                <td></td>
+                <td>
+                    <div id="xbalance"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>Insert a new value :</td>
+                <td>
+                    <input id="xvalue" type="text" />
+                    <input id="Button1" type="button" onclick="setvalue()" value="Add to Blockchain" />
+                </td>
+            </tr>
+        </table>
+    </center>
     </body>
 </html>
