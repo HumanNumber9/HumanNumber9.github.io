@@ -27,6 +27,7 @@
                 }
                 contract = web3.eth.contract(ABI).at(contract_address);
 
+                $('#message').text("ad");
                 contract.getWord.call((error, result) => {
                     if(error) {
                         return console.log(error);
